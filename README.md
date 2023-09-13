@@ -22,12 +22,12 @@ Quartz集群采用了以数据库作为协调中心的方式，需要依赖数�
 （1）定义调度任务处理程序Scheduler总数scheduler.size 和 调度中心总实例数 instanceCount。  
 （2）根据scheduler.size和instanceCount分配多个Scheduler到不同的实例中。  
 （3）针对每一个实例：  
-    n = Scheduler总数/调度中心总实例数  
-    m = Scheduler总数%调度中心总实例数  
+      n = Scheduler总数/调度中心总实例数  
+      m = Scheduler总数%调度中心总实例数  
     第一次分配时m>0 则分配n+1个Scheduler，后面的 依次取剩余实例数和剩余Scheduler个数取商取余进行再次分配。  
 （4）定时上报心跳，按检查间隔（默认10s）定时上报更新pubts。根据心跳清除消亡或异常的实例  
 
-3.协调者程序高可用保障以及容灾流程
+3.协调者程序高可用保障以及容灾流程  
 （1）定时检测SCH_INSTANCE表中的pubts与当前时间差值大于3倍的检查间隔，判断当前实例是否异常或者死亡，清除超期数据对应该条记录的 instance_id、pubts。  
 （2）定时检测到SCH_INSTANCE表中有未分配的id均分给其它存活实例，或者进行重新分配。  
 ![输入图片说明](images/%E9%AB%98%E5%8F%AF%E7%94%A8%E5%AE%B9%E7%81%BE%E4%BF%9D%E9%9A%9C.png)
