@@ -18,8 +18,8 @@ Quartz集群采用了以数据库作为协调中心的方式，需要依赖数�
 
 ![quartz集群动态分配](images/quartz%E9%9B%86%E7%BE%A4%E5%8A%A8%E6%80%81%E5%88%86%E9%85%8D.png)
 
-2.动态分配策略
-（1）定义调度任务处理程序Scheduler总数scheduler.size 和 调度中心总实例数 instanceCount。  
+2.动态分配策略  
+（1）定义quartz处理程序Scheduler总数scheduler.size 和 quartz总实例数 instanceCount。  
 （2）根据scheduler.size和instanceCount分配多个Scheduler到不同的实例中。  
 （3）针对每一个实例：  
       n = Scheduler总数/调度中心总实例数  
@@ -32,8 +32,9 @@ Quartz集群采用了以数据库作为协调中心的方式，需要依赖数�
 （2）定时检测到SCH_INSTANCE表中有未分配的id均分给其它存活实例，或者进行重新分配。  
 ![输入图片说明](images/%E9%AB%98%E5%8F%AF%E7%94%A8%E5%AE%B9%E7%81%BE%E4%BF%9D%E9%9A%9C.png)
 
-4.粘性分配策略
- 采用粘性分配策略，在有异常实例是针对存储实例与Scheduler分配表清除数据时记修改SCH_INSTANCE中type=1，在异常实例恢复时优化分配type=1的数据给新启动的实例
+4.粘性分配策略  
+ 采用粘性分配策略，在有异常实例是针对存储实例与Scheduler分配表清除数据时记修改SCH_INSTANCE中type=1，在异常实例恢复时根据SCH_INSTANCE分配的存活实例和
+ quartz总实例数 instanceCount判断采用粘性分配策略分配type=1的数据给新启动的实例
 
 #### 安装教程
 
